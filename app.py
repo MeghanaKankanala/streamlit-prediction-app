@@ -16,7 +16,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score,classification_report
 
 
-data=pd.read_csv("C:\\Users\\User1\\Desktop\\BI\\ML\\ML Project1_BMP\\bank-marketing.csv")
+data=pd.read_csv("bank-marketing.csv")
 def main():
     st.title("      Bank Marketing Prediction     ")
     st.spinner()
