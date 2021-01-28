@@ -18,8 +18,11 @@ from sklearn.metrics import accuracy_score,classification_report
 
 data=pd.read_csv("bank-marketing.csv")
 def main():
+    
+    
+
     st.title("      Bank Marketing Prediction     ")
-    st.spinner()
+    
 
 
     htk=  """
@@ -28,121 +31,180 @@ def main():
     </div>
     """
     st.markdown(htk,unsafe_allow_html=True)
-
+    
+    if st.button("Problem Statement"):
+       
+        st.markdown(""" The  goal is to make a predictive model to predict if the customer will respond positively to the
+            campaign organised by a portugese bank institution. Often, more than one contact to the same client was required, in order to access 
+        if the product (bank term deposit) would be subscribed or not subscribed.
+        This is a tedious task to do and will consume much time ,the model can help in avoiding both.
+         """)
+    if st.checkbox("Data Description"):
+        st.text(
+        """ The data is related with direct marketing campaigns of a Portuguese banking institution.
+        The marketing campaigns were based on phone calls.All the information can be found in the link given below.
+        """)
+        st.subheader("PLEASE REFER TO THE DATA SET LINK BEFORE ACTUALLY GOING FORWARD WITH THE APP TO GET A BETTER UNDERSTANDING AND CLEAR IDEA.")
+        
+        
+        link='[Data set link](https://archive.ics.uci.edu/ml/datasets/Bank+Marketing)'
+        st.markdown(link,unsafe_allow_html=True)
 
     model=st.sidebar.selectbox(
     "Select an ML Model",
-    ("Logistic Regression", "Random Forest")
+    ("select","Logistic Regression", "Random Forest")
     )
     if model=="Logistic Regression":
-        # st.header("Top 3 feature columns are taken here ,after performing EDA and Feature Engineering.")
-        klm= """
+        if st.checkbox("Modeling"):
+        
+            klm= """
     
-    <h3 style="color:black;text-align:center;"> Top 3 feature columns are taken here ,after performing EDA and Feature Engineering. </h3>
+    <h4 style="color:black;text-align:center;"> Top 3 feature columns are taken here to prophesy final output ,after performing EDA and Feature Engineering. </h4>
     
     """
-        st.markdown(klm,unsafe_allow_html=True)
-        housing=st.sidebar.radio("Do you have Housing Loan?", ('yes' , 'no'))
-        loan=st.sidebar.radio("Do you have Personal Loan?",('yes', 'no'))
-        contact=st.sidebar.radio("How do you prefer to communicate",("unknown",'Telephone', 'Cellular'))
-       
+            st.markdown(klm,unsafe_allow_html=True)
         
-        dict={"yes":'1',"no":'0'}
-        for  i, j in dict.items():
-            housing=housing.replace(i,j)
-            loan=loan.replace(i,j)
+        housing=st.sidebar.selectbox("Do you have Housing Loan?", ("select",'yes' , 'no'))
+        loan=st.sidebar.selectbox("Do you have Personal Loan?",("select",'yes', 'no'))
+        contact=st.sidebar.selectbox("How do you prefer to communicate",("select","unknown",'Telephone', 'Cellular'))
+        if housing!="select" and  loan!="select" and contact!="select":
+        
+            dict={"yes":'1',"no":'0'}
+            for  i, j in dict.items():
+                housing=housing.replace(i,j)
+                loan=loan.replace(i,j)
 
-        contact_dict={"unknown":'2',"Cellular":'0',"Telephone":'1'}
-        for  i, j in contact_dict.items():
-            contact=contact.replace(i,j)
+            contact_dict={"unknown":'2',"Cellular":'0',"Telephone":'1'}
+            for  i, j in contact_dict.items():
+                contact=contact.replace(i,j)
         
         
-        with open("lr.pkl",'rb') as f:
-            lr=pickle.load(f)
+            with open("lr.pkl",'rb') as f:
+                lr=pickle.load(f)
         
-        res=lr.predict([[int(housing),int(loan),int(contact)]])
-        
-        
+            res=str(lr.predict([[int(housing),int(loan),int(contact)]]))
+            dict={"yes":'1',"no":'0'}    
+            for i,j in dict.items():
+                res=res.replace(j,i)
+        else:
+            res="None"
+    
+
+          
       
        
         
-    else:
+    elif model=="Random Forest":
         age=st.slider("Enter age of the customer",18,95)
         age=int(age)
         age=int(scaler.fit_transform([[age]]))
-        job=st.selectbox("Enter the type of job customer do",('management' ,'technician', 'entrepreneur', 'blue-collar' ,'unknown',
+        job=st.selectbox("Enter the type of job customer do",("select",'management' ,'technician', 'entrepreneur', 'blue-collar' ,'unknown',
         'retired', 'admin.' ,'services', 'self-employed', 'unemployed' ,'housemaid','student'))
         job=int(encoder.fit_transform([[job]]))
-        salary=st.text_input("Enter the salary of the customer",0,120000)
+        salary=st.number_input("Enter the salary of the customer")
         
-        salary=int(salary)
-        if salary>120000 or salary<0:
-            st.text("Please enter a number between  0 & 120000 ")
+        
+       
+        if  salary>120000 or salary<0:
+            st.warning("Invalid, Please enter an amount between  0 & 120000 ")
+            
+           
         salary=int(scaler.fit_transform([[salary]]))
-        marital=st.selectbox("what is customer's marital status?",('married','single' ,'divorced'))
-        marital=int(encoder.fit_transform([[marital]]))
-        education=st.selectbox("Enter customer's education level",('tertiary', 'secondary' ,'unknown' ,'primary'))
-        education=int(encoder.fit_transform([[education]]))
-        targeted=st.selectbox("Do the customer have target?", ('yes' , 'no'))
-        targeted=int(encoder.fit_transform([[targeted]]))
-        default=st.selectbox("Do the customer have credit in default?", ('yes' , 'no'))
-        default=int(encoder.fit_transform([[default]]))
-        balance=st.slider("Enter the customers balance",min_value=-8019,max_value=102127)
-        balance=int(balance)
-        if balance>102127 or balance<-8019:
-             st.text("Please enter a number between -8019 & 102127")
-        balance=int(scaler.fit_transform([[balance]]))
-        housing=st.selectbox("Do the customer have Housing Loan?", ('yes' , 'no'))
-        housing=int(encoder.fit_transform([[housing]]))
-        loan=st.selectbox("Do the customer have Personal Loan?",('yes', 'no'))
-        loan=int(encoder.fit_transform([[loan]]))
-        contact=st.radio("How do you prefer to communicate",("unknown",'Telephone', 'Cellular'))
-        contact=int(encoder.fit_transform([[contact]]))
+        marital=st.selectbox("what is customer's marital status?",("select",'married','single' ,'divorced'))
+        
+        education=st.selectbox("Enter customer's education level",("select",'tertiary', 'secondary' ,'unknown' ,'primary'))
+        
+        targeted=st.selectbox("Do the customer have target?", ("select",'yes' , 'no'))
+        
+        default=st.selectbox("Do the customer have credit in default?", ("select",'yes' , 'no'))
+        
+        balance=st.text_input("Enter the customers balance")
+        if  not balance :
+            st.warning("Please enter balance")
+        else:
+            if balance.isalpha() and balance.isalnum():
+                st.warning("Please enter an integer number")
+        
+        
+            else:
+                balance=int(balance)
+                if balance>102127 or balance<-8019:
+                    st.warning("Please enter a balance amount between -8019 & 102127")
+            
+        
+            balance=int(scaler.fit_transform([[balance]]))
+        housing=st.selectbox("Do the customer have Housing Loan?", ("select",'yes' , 'no'))
+        
+        loan=st.selectbox("Do the customer have Personal Loan?",("select",'yes', 'no'))
+        
+        contact=st.radio("How do you prefer to communicate",("select","unknown",'Telephone', 'Cellular'))
+        
         day=st.slider("Enter Day",1,31)
         day=int(day)
         day=int(scaler.fit_transform([[day]]))
-        month=st.selectbox("Which month the customer was last contacted in?",('jan',"Feb","March",'April',"May","June","July","Aug","Sep","oct","Nov","Dec"))
-        month=int(encoder.fit_transform([[month]]))
-        duration=st.text_input("Enter last contact duration with the customer in sec?",0,4918)
+        month=st.selectbox("Which month the customer was last contacted in?",("select",'jan',"Feb","March",'April',"May","June","July","Aug","Sep","oct","Nov","Dec"))
         
-        duration=int(duration)
-        if duration>4918 or duration<0:
-             st.text("Please enter an number between 0 & 4918")
-        duration=int(scaler.fit_transform([[duration]]))
+        duration=st.text_input("Enter last contact duration with the customer in sec?",0,4918)
+        if not duration:
+            st.warning("Enter Duration Period")
+        else:
+            if duration.isalpha() and duration.isalnum():
+                st.warning("Please enter an integer number")
+            else:
+                duration=int(duration)
+                if duration>4918 or duration<0:
+                    st.warning("Please enter an number between 0 & 4918")
+                duration=int(scaler.fit_transform([[duration]]))
         campaign=st.slider("Enter number of contacts performed during this campaign and for this client",1,63)
         campaign=int(campaign)
         
         campaign=int(scaler.fit_transform([[campaign]]))
+        if marital!="select" and education!="select" and targeted!="select" and default!="select" and housing!="select" and loan!="select" and contact!="select" and month!="select":
+            marital=int(encoder.fit_transform([[marital]]))
+            education=int(encoder.fit_transform([[education]]))
+            targeted=int(encoder.fit_transform([[targeted]]))
+            default=int(encoder.fit_transform([[default]]))
+            housing=int(encoder.fit_transform([[housing]]))
+            loan=int(encoder.fit_transform([[loan]]))
+            contact=int(encoder.fit_transform([[contact]]))
+            month=int(encoder.fit_transform([[month]]))
 
-        with open("rf.pkl",'rb') as f:
-            rf=pickle.load(f)
-        res=rf.predict([[age,job,salary,marital,education,targeted,default,balance,housing,loan,contact,day,month,duration,campaign]])
-        
-        
+            with open("rf.pkl",'rb') as f:
+                rf=pickle.load(f)
+            res=rf.predict([[age,job,salary,marital,education,targeted,default,balance,housing,loan,contact,day,month,duration,campaign]])
+            res=str(res)
+            dict={"yes":'1',"no":'0'}    
+            for i,j in dict.items():
+                res=res.replace(j,i)
+        else:
+            res="None"
 
         
+
+    else:
+        res="None"
+           
     return res
 
     
 
 if __name__=='__main__':
-    result=main()
-    Res=str(int(result))
-    dict={"yes":'1',"no":'0'}    
-    for i,j in dict.items():
-        Res=Res.replace(j,i)
+    Res=main()
+    # Res=str(int(result))
+    # dict={"yes":'1',"no":'0'}    
+    # for i,j in dict.items():
+    #     Res=Res.replace(j,i)
     
             
+    if st.button("Show Prediction"):
+        st.subheader("The predicted response of customer or client to subscribe a term deposit is")
+        st.success(Res)
     
-    st.subheader("The predicted response of customer or client to subscribe a term deposit is")
-    st.success(Res)
     
-    if st.checkbox("About Data "):
-        st.text("Please visit the link provided here to know the complete details of the dataset;")
-        st.text(" __Data set link__: https://archive.ics.uci.edu/ml/datasets/Bank+Marketing ")
     
     
     if st.button("Thanks") :
         st.text("Thank you for visiting  and happy learning :)")
         st.balloons()
+    
    
