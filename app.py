@@ -64,9 +64,9 @@ def main():
     """
             st.markdown(klm,unsafe_allow_html=True)
         
-        housing=st.sidebar.selectbox("Do you have Housing Loan?", ("select",'yes' , 'no'))
-        loan=st.sidebar.selectbox("Do you have Personal Loan?",("select",'yes', 'no'))
-        contact=st.sidebar.selectbox("How do you prefer to communicate",("select","unknown",'Telephone', 'Cellular'))
+        housing=st.sidebar.selectbox("Do the customer have Housing Loan?", ("select",'yes' , 'no'))
+        loan=st.sidebar.selectbox("Do the customer have Personal Loan?",("select",'yes', 'no'))
+        contact=st.sidebar.selectbox("How do the customer prefer to communicate",("select","unknown",'Telephone', 'Cellular'))
         if housing!="select" and  loan!="select" and contact!="select":
         
             dict={"yes":'1',"no":'0'}
@@ -141,12 +141,21 @@ def main():
         loan=st.selectbox("Do the customer have Personal Loan?",("select",'yes', 'no'))
         
         contact=st.radio("How do you prefer to communicate",("select","unknown",'Telephone', 'Cellular'))
+        month=st.selectbox("Which month the customer was last contacted in?",("select",'Jan',"Feb","March",'April',"May","June","July","Aug","Sep","Oct","Nov","Dec"))
         
-        day=st.slider("Enter Day",1,31)
-        day=int(day)
+        if month  in ["Jan","March","May","July","Aug","Oct","Dec"] :
+            day=st.slider("Enter Day the customer was contacted ",1,31)
+            day=int(day)
+            
+        elif month=="Feb":
+            day=st.slider("Enter Day the customer was contacted ",1,29)
+            day=int(day)
+        else:
+            day=st.slider("Enter the Day the customer was contacted ",1,30)
+            day=int(day)
+
+        
         day=int(scaler.fit_transform([[day]]))
-        month=st.selectbox("Which month the customer was last contacted in?",("select",'jan',"Feb","March",'April',"May","June","July","Aug","Sep","oct","Nov","Dec"))
-        
         duration=st.text_input("Enter last contact duration with the customer in sec?",0,4918)
         if not duration:
             st.warning("Enter Duration Period")
