@@ -118,7 +118,7 @@ def main():
         
         default=st.selectbox("Do the customer have credit in default?", ("select",'yes' , 'no'))
         
-        balance=st.text_input("Enter the customers balance")
+        balance=st.text_input("Enter the customers balance",-8019,102127)
         if  not balance :
             st.warning("Please enter balance")
             
