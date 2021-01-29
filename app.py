@@ -121,9 +121,12 @@ def main():
         balance=st.text_input("Enter the customers balance")
         if  not balance :
             st.warning("Please enter balance")
+            
         else:
             if balance.isalpha() and balance.isalnum():
                 st.warning("Please enter an integer number")
+                pass
+                
         
         
             else:
@@ -132,7 +135,7 @@ def main():
                     st.warning("Please enter a balance amount between -8019 & 102127")
             
         
-            balance=int(scaler.fit_transform([[balance]]))
+                balance=int(scaler.fit_transform([[balance]]))
         housing=st.selectbox("Do the customer have Housing Loan?", ("select",'yes' , 'no'))
         
         loan=st.selectbox("Do the customer have Personal Loan?",("select",'yes', 'no'))
@@ -147,9 +150,11 @@ def main():
         duration=st.text_input("Enter last contact duration with the customer in sec?",0,4918)
         if not duration:
             st.warning("Enter Duration Period")
+            
         else:
             if duration.isalpha() and duration.isalnum():
                 st.warning("Please enter an integer number")
+                pass
             else:
                 duration=int(duration)
                 if duration>4918 or duration<0:
