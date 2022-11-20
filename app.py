@@ -45,7 +45,7 @@ def main():
         The marketing campaigns were based on phone calls.All the information can be found in the link given below.
         """)
         st.subheader("PLEASE REFER TO THE DATA SET LINK BEFORE ACTUALLY GOING FORWARD WITH THE APP TO GET A BETTER UNDERSTANDING AND CLEAR IDEA.")
-        
+        st.text("Note: The data set used is bank.zip.")
         
         link='[Data set link](https://archive.ics.uci.edu/ml/datasets/Bank+Marketing)'
         st.markdown(link,unsafe_allow_html=True)
@@ -59,14 +59,14 @@ def main():
         
             klm= """
     
-    <h4 style="color:black;text-align:center;"> Top 3 feature columns are taken here to prophesy final output ,after performing EDA and Feature Engineering. </h4>
+    <h4 style="color:red;text-align:center;"> Top 3 feature columns are taken here to prophesy final output ,after performing EDA and Feature Engineering. </h4>
     
     """
             st.markdown(klm,unsafe_allow_html=True)
         
-        housing=st.sidebar.selectbox("Do the customer have Housing Loan?", ("select",'yes' , 'no'))
-        loan=st.sidebar.selectbox("Do the customer have Personal Loan?",("select",'yes', 'no'))
-        contact=st.sidebar.selectbox("How do the customer prefer to communicate",("select","unknown",'Telephone', 'Cellular'))
+        housing=st.sidebar.selectbox("Does the customer have Housing Loan?", ("select",'yes' , 'no'))
+        loan=st.sidebar.selectbox("Does the customer have Personal Loan?",("select",'yes', 'no'))
+        contact=st.sidebar.selectbox("How does the customer prefer to communicate",("select","unknown",'Telephone', 'Cellular'))
         if housing!="select" and  loan!="select" and contact!="select":
         
             dict={"yes":'1',"no":'0'}
@@ -114,9 +114,9 @@ def main():
         
         education=st.selectbox("Enter customer's education level",("select",'tertiary', 'secondary' ,'unknown' ,'primary'))
         
-        targeted=st.selectbox("Do the customer have target?", ("select",'yes' , 'no'))
+        targeted=st.selectbox("Does the customer have target?", ("select",'yes' , 'no'))
         
-        default=st.selectbox("Do the customer have credit in default?", ("select",'yes' , 'no'))
+        default=st.selectbox("Does the customer have credit in default?", ("select",'yes' , 'no'))
         
         balance=st.text_input("Enter the customers balance",0)
         if  not balance :
