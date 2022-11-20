@@ -44,7 +44,7 @@ def main():
         """ The data is related with direct marketing campaigns of a Portuguese banking institution.
         The marketing campaigns were based on phone calls.All the information can be found in the link given below.
         """)
-        st.subheader("PLEASE REFER TO THE DATA SET LINK BEFORE ACTUALLY GOING FORWARD WITH THE APP TO GET A BETTER UNDERSTANDING AND CLEAR IDEA.")
+        st.text("PLEASE REFER TO THE DATA SET LINK BEFORE ACTUALLY GOING FORWARD WITH THE APP TO GET A BETTER UNDERSTANDING AND CLEAR IDEA.")
         st.text("Note:'bank-full.csv' data inside 'bank.zip' is used.")
         
         link='[Data set link](https://archive.ics.uci.edu/ml/datasets/Bank+Marketing)'
